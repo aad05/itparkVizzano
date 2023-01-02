@@ -1,6 +1,6 @@
 import styled from "styled-components";
-// import tailorman from "../../assets/images/tailorman.jpg";
 import { Input } from "antd";
+import tailorman from "../../assets/images/tailorman.jpg";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -14,14 +14,16 @@ Wrapper.LeftContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   @media (max-width: 1000px) {
     display: none;
   }
 `;
 Wrapper.LeftBackgroundImage = styled.div`
-  /* background-image: url(); */
+  z-index: 2;
+  background-image: url(${tailorman});
   height: 80%;
-  width: 70%;
+  width: 80%;
   border-radius: 12px;
   background-size: cover;
   background-position: center;
@@ -30,6 +32,7 @@ Wrapper.LeftBackgroundImage = styled.div`
 // Leftside styling is over
 
 Wrapper.RightContainer = styled.div`
+  background-color: #fff;
   flex: 1;
   display: flex;
   justify-content: center;
