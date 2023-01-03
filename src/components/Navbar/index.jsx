@@ -17,7 +17,7 @@ const Navbar = () => {
             }}
             size="large"
           >
-            A
+            M
           </Avatar>
         </Wrapper.Container>
       </Wrapper.NavbarWrap>
