@@ -3,23 +3,31 @@ import Login from "../components/Login";
 import Navbar from "../components/Navbar";
 import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
-import Contact from "../pages/Contact";
+import { RequireAuth } from "react-auth-kit";
+import Flow from "../components/FlowByParams";
+import FlowSection from "../components/FlowSections";
 
 const Root = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navbar />}>
+      <Route
+        path="/"
+        element={
+          <RequireAuth loginPath={"/login"}>
+            <Navbar />
+          </RequireAuth>
+        }
+      >
         <Route index element={<Home />} />
-        <Route path="contact" element={<Contact />} />
+        <Route path="flow/:flowID" element={<Flow />} />
+        <Route
+          path="flow/:flowID/:flowSection/:flowDate"
+          element={<FlowSection />}
+        />
       </Route>
       <Route path="/login" element={<Login />} />
     </Routes>
-
-    //   <Navbar />
   );
 };
 
 export default Root;
-
-// Context - .Provider
-// Redux - Provider

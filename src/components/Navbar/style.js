@@ -23,3 +23,13 @@ Wrapper.MainLogo = styled.img`
   height: 50px;
   cursor: pointer;
 `;
+
+Wrapper.MenuItem = styled.div`
+  display: flex;
+  font-size: 18px;
+  align-items: center;
+  grid-gap: 20px;
+`;
+Wrapper.MenuItemText = styled.div`
+  color: ${({ isLogout }) => (isLogout ? "red" : "#000")};
+`;
