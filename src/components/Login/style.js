@@ -15,15 +15,15 @@ Wrapper.LeftContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  @media (max-width: 1000px) {
+  @media (max-width: 1300px) {
     display: none;
   }
 `;
 Wrapper.LeftBackgroundImage = styled.div`
   z-index: 2;
   background-image: url(${tailorman});
-  height: 80%;
-  width: 80%;
+  height: 70%;
+  width: 70%;
   border-radius: 12px;
   background-size: cover;
   background-position: center;
@@ -44,6 +44,9 @@ Wrapper.RightItemsContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  @media (max-width: 1300px) {
+    width: 60%;
+  }
   @media (max-width: 450px) {
     width: 100%;
   }
@@ -102,4 +105,26 @@ Wrapper.LoginButton = styled.div`
   color: rgb(255, 255, 255);
   padding: 0px 15px;
   background: rgb(48, 104, 204);
+  ${({ warningAnimation }) =>
+    warningAnimation &&
+    `
+    animation: rotate 0.7s ease-in-out both;
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg) translate3d(0, 0, 0);
+    }
+    25% {
+      transform: rotate(3deg) translate3d(0, 0, 0);
+    }
+    50% {
+      transform: rotate(-3deg) translate3d(0, 0, 0);
+    }
+    75% {
+      transform: rotate(1deg) translate3d(0, 0, 0);
+    }
+    100% {
+      transform: rotate(0deg) translate3d(0, 0, 0);
+    }
+  }
+  `}
 `;

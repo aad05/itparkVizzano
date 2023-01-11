@@ -3,14 +3,17 @@ import { Wrapper } from "./style";
 import { useNavigate } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 import { notification } from "antd";
+import { useSignIn } from "react-auth-kit";
 import logo from "../../assets/images/logo.png";
 import ShapeSvg from "../Generic/ShapeSVG";
 import axios from "axios";
 
 const Login = () => {
+  const signIn = useSignIn();
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({ fullName: "", password: "" });
   const [isLoading, setLoading] = useState(false);
+  const [playWarningAnim, setPlayWarningAnim] = useState(false);
 
   const openNotification = (
     type,
@@ -26,11 +29,25 @@ const Login = () => {
     });
   };
 
+  const warningAnimHandler = () => {
+    setPlayWarningAnim(true);
+    setTimeout(() => {
+      setPlayWarningAnim(false);
+    }, 1000);
+  };
+
   const onChange = (e) =>
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
 
+  const keyHandler = (e) => {
+    if (e.key === "Enter" || e.type === "click") {
+      authUser();
+    }
+  };
+
   const authUser = () => {
     if (!loginData.password || !loginData.fullName) {
+      warningAnimHandler();
       openNotification(
         "error",
         "Name or password is not filled.",
@@ -46,11 +63,18 @@ const Login = () => {
       })
       .then((responseData) => {
         const { data } = responseData.data;
-        localStorage.setItem("token", data.token);
+        signIn({
+          token: data.token,
+          tokenType: "Bearer",
+          authState: { fullName: data.user.fullName, _id: data.user._id },
+          expiresIn: 3600,
+        });
+
         setLoading(false);
         navigate("/");
       })
       .catch((error) => {
+        warningAnimHandler();
         openNotification(
           "error",
           error.response.data.message.toUpperCase(),
@@ -96,8 +120,12 @@ const Login = () => {
             onChange={onChange}
             valaue={loginData.password}
             placeholder="Password"
+            onKeyDown={keyHandler}
           />
-          <Wrapper.LoginButton onClick={authUser}>
+          <Wrapper.LoginButton
+            warningAnimation={playWarningAnim}
+            onClick={keyHandler}
+          >
             {isLoading ? <LoadingOutlined /> : "Login"}
           </Wrapper.LoginButton>
         </Wrapper.RightItemsContainer>
