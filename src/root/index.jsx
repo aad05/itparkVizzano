@@ -2,10 +2,9 @@ import React from "react";
 import Login from "../components/Login";
 import Navbar from "../components/Navbar";
 import { Routes, Route } from "react-router-dom";
-import Home from "../pages/Home";
 import { RequireAuth } from "react-auth-kit";
-import Flow from "../components/FlowByParams";
-import FlowSection from "../components/FlowSections";
+import { navigationData } from "../utils/navigationData";
+import NotFound from "../components/404";
 
 const Root = () => {
   return (
@@ -18,14 +17,12 @@ const Root = () => {
           </RequireAuth>
         }
       >
-        <Route index element={<Home />} />
-        <Route path="flow/:flowID" element={<Flow />} />
-        <Route
-          path="flow/:flowID/:flowSection/:flowDate"
-          element={<FlowSection />}
-        />
+        {navigationData.map(({ Element, id, path }) => (
+          <Route path={path} key={id} element={<Element />} />
+        ))}
       </Route>
       <Route path="/login" element={<Login />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
