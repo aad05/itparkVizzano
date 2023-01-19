@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Wrapper } from "./style";
 import { Title } from "../../Generic/Styles";
 import Calendar from "../../Generic/Calendar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Table from "./Table";
 import axios from "axios";
 import { Button } from "antd";
 
 const Attandances = () => {
   const { flowDate, flowID } = useParams();
+  const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(Number(flowDate));
   const [data, setData] = useState({});
   const [isLoading, setLoading] = useState(false);
@@ -45,7 +46,12 @@ const Attandances = () => {
       ) : (
         <Table data={data} createDate={date} flowType={flowID} />
       )}
-      <Button style={{ margin: "35px 0" }}>Go to Count work</Button>
+      <Button
+        style={{ margin: "35px 0" }}
+        onClick={() => navigate(`/flow/${flowID}/count-work/${flowDate}`)}
+      >
+        Go to Count work
+      </Button>
     </Wrapper>
   );
 };
