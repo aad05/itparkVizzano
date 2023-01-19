@@ -3,10 +3,9 @@ import { Wrapper } from "./style";
 import mianlogo from "../../assets/images/mainlogo.jpg";
 import { Avatar, Dropdown } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
-import { IoMdSettings } from "react-icons/io";
-import { RiLogoutBoxFill } from "react-icons/ri";
 import { useSignOut } from "react-auth-kit";
 import UserModal from "./UserModal";
+import { SettingOutlined, LogoutOutlined } from "@ant-design/icons";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -16,7 +15,7 @@ const Navbar = () => {
     {
       label: (
         <Wrapper.MenuItem onClick={() => setOpen(true)}>
-          <IoMdSettings />
+          <SettingOutlined />
           <Wrapper.MenuItemText>Settings</Wrapper.MenuItemText>
         </Wrapper.MenuItem>
       ),
@@ -30,7 +29,7 @@ const Navbar = () => {
             navigate("/login");
           }}
         >
-          <RiLogoutBoxFill style={{ color: "red" }} />
+          <LogoutOutlined style={{ color: "red" }} />
           <Wrapper.MenuItemText isLogout={true}>Log out</Wrapper.MenuItemText>
         </Wrapper.MenuItem>
       ),

@@ -4,6 +4,8 @@ import Card from "../Generic/Card";
 import { Wrapper } from "./style";
 import { flowData } from "../../utils/flowDate";
 import { Title } from "../Generic/Styles";
+import store from "../../assets/images/store.jpg";
+import report from "../../assets/images/report.jpg";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -23,14 +25,8 @@ const Home = () => {
       </Wrapper.CardContainer>
       <Title>Store and Report</Title>
       <Wrapper.CardContainer>
-        <Card
-          title={"Store"}
-          img="https://previews.123rf.com/images/grgroup/grgroup1310/grgroup131000166/22769908-store-design-over-white-background-vector-illustration.jpg"
-        />
-        <Card
-          title={"Report"}
-          img="https://previews.123rf.com/images/vectorplus/vectorplus1711/vectorplus171100236/90549766-business-report-vector-icon-black-illustration-isolated-on-white-background-for-graphic-and-web-desi.jpg"
-        />
+        <Card title={"Store"} img={store} onClick={() => navigate("/store")} />
+        <Card title={"Report"} img={report} />
       </Wrapper.CardContainer>
     </Wrapper>
   );

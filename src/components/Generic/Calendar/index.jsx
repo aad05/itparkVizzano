@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { DatePicker } from "antd";
 import { Wrapper } from "./style";
 import { Title } from "../Styles";
-import { BsFillCaretLeftFill, BsFillCaretRightFill } from "react-icons/bs";
-
-const Calendar = ({ date }) => {
-  const startDate = 1668970800000;
+import { ArrowRightOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+const Calendar = ({ date, onDayChange }) => {
+  const startDate = process.env.REACT_APP_START_DATE;
+  const setUpDate = new Date();
   const [paramsDate, setParamsDate] = useState(date.getTime());
   const [showDate, setShowDate] = useState(true);
-  const setUpDate = new Date();
   const visibleDate = new Date(
     `${setUpDate.getMonth() + 1}/${
       setUpDate.getDate() + 1
@@ -17,30 +16,51 @@ const Calendar = ({ date }) => {
 
   const currentDate = new Date(paramsDate);
 
-  const minusDay = () =>
-    setParamsDate(currentDate.setDate(currentDate.getDate() - 1));
-
-  const plusDay = () =>
-    setParamsDate(currentDate.setDate(currentDate.getDate() + 1));
-
+  const minusDay = () => {
+    const minusDayChange = currentDate.setDate(currentDate.getDate() - 1);
+    setParamsDate(minusDayChange);
+    onDayChange(minusDayChange);
+  };
+  const plusDay = () => {
+    const plusDayChange = currentDate.setDate(currentDate.getDate() + 1);
+    setParamsDate(plusDayChange);
+    onDayChange(plusDayChange);
+  };
   return (
     <Wrapper>
-      <BsFillCaretLeftFill
-        onClick={minusDay}
-        style={{ fontSize: "25px", cursor: "pointer" }}
-      />
+      {startDate <
+      new Date(
+        `${
+          currentDate.getMonth() + 1
+        }/${currentDate.getDate()}/${currentDate.getFullYear()}`
+      ).getTime() ? (
+        <ArrowLeftOutlined
+          onClick={minusDay}
+          style={{ fontSize: "22px", cursor: "pointer" }}
+        />
+      ) : (
+        ""
+      )}
       <Title onClick={() => setShowDate(false)}>
         {showDate ? (
-          currentDate.toLocaleDateString("ru-RU", {
+          currentDate.toLocaleDateString(`ru-RU`, {
             year: "numeric",
             month: "numeric",
             day: "numeric",
           })
         ) : (
           <DatePicker
+            open={!showDate}
+            onOpenChange={() => {
+              setShowDate(true);
+            }}
+            onSelect={(e) => {
+              const selectedDate = e.$d.getTime();
+              setParamsDate(selectedDate);
+              onDayChange(selectedDate);
+            }}
             disabledDate={(value) => {
               const antdDate = new Date(value.$d);
-
               if (
                 startDate < antdDate.getTime() &&
                 visibleDate.getTime() > antdDate.getTime()
@@ -49,16 +69,8 @@ const Calendar = ({ date }) => {
               }
               return true;
             }}
-            open={!showDate}
-            onOpenChange={(e) => {
-              setShowDate(true);
-            }}
-            onSelect={(e) => {
-              setShowDate(true);
-              setParamsDate(new Date(e.$d).getTime());
-            }}
           />
-        )}
+        )}{" "}
       </Title>
       {Number(
         `${setUpDate.getDate()}.${
@@ -70,9 +82,9 @@ const Calendar = ({ date }) => {
           currentDate.getMonth() + 1
         }${currentDate.getFullYear()}`
       ) ? (
-        <BsFillCaretRightFill
+        <ArrowRightOutlined
           onClick={plusDay}
-          style={{ fontSize: "25px", cursor: "pointer" }}
+          style={{ fontSize: "22px", cursor: "pointer" }}
         />
       ) : (
         ""
