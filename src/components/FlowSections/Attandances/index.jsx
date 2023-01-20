@@ -56,19 +56,23 @@ const Attandances = () => {
       method: "POST",
       url: `${process.env.REACT_APP_MAIN_URL}/user/create`,
       data: {
-        fullName: `${newUserData.surname} ${newUserData.name} ${newUserData.middleName}}`,
+        fullName: `${newUserData.surname} ${newUserData.name} ${newUserData.middleName}`,
         flowType: `${flowID}`,
       },
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }).then((res) => {
-      console.log(res);
-      console.log(data);
-      setData();
+      setNewUserData({
+        name: "",
+        surname: "",
+        middleName: "",
+      });
+      setModalOpen(false);
       setDataChanger(!dataChanger);
     });
   };
+
   return (
     <Wrapper>
       <Title>Attandances</Title>
@@ -77,6 +81,7 @@ const Attandances = () => {
         closeModalHandler={closeModal}
         getNewUserData={getNewUserData}
         addUserHandler={addNewUser}
+        newUserData={newUserData}
       />
       <Calendar date={date} onDayChange={dayChangeHandler} />
       <Button
