@@ -46,15 +46,6 @@ const Login = () => {
   };
 
   const authUser = () => {
-    if (!loginData.password || !loginData.fullName) {
-      warningAnimHandler();
-      openNotification(
-        "error",
-        "Name or password is not filled.",
-        "Password length must be at least 8 characters. Please make sure these rules."
-      );
-      return;
-    }
     setLoading(true);
 
     axios
@@ -108,7 +99,7 @@ const Login = () => {
           <Wrapper.Title>Hello again!</Wrapper.Title>
           <Wrapper.Description>
             Каждый день мы стараемся шить с лучшими для вас 😊. Vizzano с вами
-            более 10 лет. 😎 🙃
+            более 15 лет. 😎 🙃. Those all of them are false. Trust me!
           </Wrapper.Description>
           <Wrapper.Input
             name="fullName"
