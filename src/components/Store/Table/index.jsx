@@ -1,8 +1,7 @@
 import { Button } from "antd";
-import React from "react";
-import { TableContainer } from "../../../Generic/Styles/tableStyle";
+import { TableContainer } from "../../Generic/Styles/tableStyle";
 import { OrderedListOutlined } from "@ant-design/icons";
-const Table = ({ data }) => {
+const Table = ({ data, disableFunction }) => {
   return (
     <TableContainer>
       <TableContainer.Table>
@@ -12,22 +11,29 @@ const Table = ({ data }) => {
               <OrderedListOutlined />
             </TableContainer.Th>
             <TableContainer.Th>Products</TableContainer.Th>
-            <TableContainer.Th count>Count</TableContainer.Th>
-            <TableContainer.Th defect>Fake</TableContainer.Th>
-            <TableContainer.Th isEnd>Action</TableContainer.Th>
+            <TableContainer.Th count>Count Products</TableContainer.Th>
+            <TableContainer.Th defect>Sent Products</TableContainer.Th>
+            {!disableFunction && (
+              <TableContainer.Th isEnd>Action</TableContainer.Th>
+            )}
           </TableContainer.Tr>
         </TableContainer.Thead>
         <TableContainer.Tbody>
-          {data?.data?.map((value, index) => {
+          {data.map((value, index) => {
             return (
               <TableContainer.Tr key={value.id}>
                 <TableContainer.Td>{index + 1}</TableContainer.Td>
                 <TableContainer.Td>{value.productName}</TableContainer.Td>
                 <TableContainer.Td count>{value.things}</TableContainer.Td>
-                <TableContainer.Td defect> {value.fake}</TableContainer.Td>
-                <TableContainer.Td isEnd>
-                  <Button danger>Delete</Button>
+                <TableContainer.Td defect>
+                  {" "}
+                  {value.sendedThings}
                 </TableContainer.Td>
+                {!disableFunction && (
+                  <TableContainer.Td isEnd>
+                    <Button danger>Delete</Button>
+                  </TableContainer.Td>
+                )}
               </TableContainer.Tr>
             );
           })}

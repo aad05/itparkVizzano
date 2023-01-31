@@ -42,7 +42,7 @@ const Table = ({ data: propData, createDate, flowType }) => {
 
     axios({
       method: "POST",
-      url: `${process.env.REACT_APP_MAIN_URL}/merchants/update`,
+      url: `${process.env.REACT_APP_MAIN_URL}/merchants/update_all_come`,
       data: {
         flowType,
         createDate: createDate.getTime(),
@@ -57,6 +57,22 @@ const Table = ({ data: propData, createDate, flowType }) => {
   useEffect(() => {
     setData({ ...data, isAllCome: data?.data?.every((value) => value.isCome) });
   }, [toggleChange]);
+
+  const onDelete = ({ _id }) => {
+    setData({ ...data, data: data.data.filter((value) => value._id !== _id) });
+    axios({
+      url: `${process.env.REACT_APP_MAIN_URL}/merchants/delete_user`,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      data: {
+        createDate: createDate.getTime(),
+        flowType,
+        idUsers: [_id],
+      },
+    });
+  };
 
   return (
     <Wrapper>
@@ -93,7 +109,14 @@ const Table = ({ data: propData, createDate, flowType }) => {
               </Wrapper.Td>
               <Wrapper.Td>{value.fullName}</Wrapper.Td>
               <Wrapper.Td isEnd>
-                <Button danger>Delete</Button>
+                <Button
+                  danger
+                  onClick={() => {
+                    onDelete(value);
+                  }}
+                >
+                  Delete
+                </Button>
               </Wrapper.Td>
             </Wrapper.Tr>
           ))}
