@@ -33,6 +33,7 @@ const OTK = () => {
       setLoading(false);
       const { data } = res;
       setData(data?.data[0]);
+      console.log(data?.data[0]);
     });
   }, [currentDate]);
 
@@ -42,13 +43,18 @@ const OTK = () => {
 
   const onAdd = (value) => {
     setData({ ...data, data: [...data.data, value] });
+    console.log(data);
   };
 
   return (
     <Wrapper>
       <Title>OTK</Title>
       <Calendar date={date} onDayChange={onDayChangeHandler} />
-      {isLoading ? <TableLoading count={10} /> : <Table data={data} />}
+      {isLoading ? (
+        <TableLoading count={10} />
+      ) : (
+        <Table data={data} currentDate={currentDate} />
+      )}
       <AddModal
         open={addModalOpen}
         onOpen={() => setAddModalOpen(true)}

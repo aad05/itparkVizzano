@@ -23,6 +23,7 @@ const AddModal = ({ open, onCancel, onAdd, onOpen, createDate }) => {
     });
 
     const addData = data.data[0].data;
+    console.log(addData);
     onAdd(addData[addData.length - 1]);
     onCancel();
   };
@@ -38,8 +39,7 @@ const AddModal = ({ open, onCancel, onAdd, onOpen, createDate }) => {
         onCancel={onCancel}
         title="Add Product"
         okText="Add"
-        onOk={addUser}
-      >
+        onOk={addUser}>
         <Wrapper.InputWrapper>
           <Wrapper.Label>Product Name:</Wrapper.Label>
           <Wrapper.Input

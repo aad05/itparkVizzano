@@ -50,8 +50,7 @@ const Table = ({ data, currentDate }) => {
                 </TableContainer.Td>
                 <TableContainer.Td
                   defect={!value.isCome}
-                  onDoubleClick={() => doubleClickHandler(value, "fullName")}
-                >
+                  onDoubleClick={() => doubleClickHandler(value, "fullName")}>
                   {selectedData._id === value._id &&
                   selectType === "fullName" ? (
                     <TextInput
@@ -66,8 +65,7 @@ const Table = ({ data, currentDate }) => {
                 <TableContainer.Td
                   isAvailable
                   defect={true}
-                  onDoubleClick={() => doubleClickHandler(value, "fake")}
-                >
+                  onDoubleClick={() => doubleClickHandler(value, "fake")}>
                   {selectedData._id === value._id && selectType === "fake" ? (
                     <NumberInput
                       type="fake"
@@ -81,8 +79,7 @@ const Table = ({ data, currentDate }) => {
                 </TableContainer.Td>
                 <TableContainer.Td
                   defect={!value.isCome}
-                  onDoubleClick={() => doubleClickHandler(value, "price")}
-                >
+                  onDoubleClick={() => doubleClickHandler(value, "price")}>
                   {" "}
                   {selectedData._id === value._id && selectType === "price" ? (
                     <NumberInput
