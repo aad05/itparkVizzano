@@ -3,61 +3,59 @@ import axios from "axios";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { setCountWorkSelectedData } from "../../../../../redux/countWorkSlice";
+import { setOTKSelectedData } from "../../../../../redux/otkSlice";
 import { Wrapper } from "./style";
 
 const NumberInput = ({ type, _id, currentDate, updateHandler }) => {
   const { flowID } = useParams();
-  const dispatch = useDispatch();
-  const { selectedData } = useSelector((state) => state.countWork);
 
-  const cancelHandler = () => {
-    dispatch(setCountWorkSelectedData({}));
-  };
+  const dispatch = useDispatch();
+  const { selectedData } = useSelector((state) => state.otk);
 
   const changeHandler = (data) => {
-    dispatch(setCountWorkSelectedData(data));
+    dispatch(setOTKSelectedData(data));
   };
-
-  const saveHandler = () => {
-    updateHandler();
-    cancelHandler();
-    axios({
-      url: `${process.env.REACT_APP_MAIN_URL}/merchants/update`,
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      data: {
-        createDate: currentDate,
-        flowType: flowID,
-        shoudUpdateData: selectedData,
-        _id,
-      },
-    });
+  const cancelHandler = () => {
+    dispatch(setOTKSelectedData({}));
   };
-
+  const onChange = (e) => {
+    if (type === "things")
+      changeHandler({ ...selectedData, things: +e.target.value });
+    else changeHandler({ ...selectedData, fake: +e.target.value });
+  };
   const changeByBtn = (funcType) => {
     if (funcType === "inc")
       dispatch(
-        setCountWorkSelectedData({
+        setOTKSelectedData({
           ...selectedData,
           [type]: +selectedData[type] + 1,
         })
       );
     else
       dispatch(
-        setCountWorkSelectedData({
+        setOTKSelectedData({
           ...selectedData,
           [type]: +selectedData[type] - 1,
         })
       );
   };
 
-  const onChange = (e) => {
-    if (type === "fake")
-      changeHandler({ ...selectedData, fake: +e.target.value });
-    else changeHandler({ ...selectedData, price: +e.target.value });
+  const onSave = () => {
+    updateHandler();
+    cancelHandler();
+    axios({
+      url: `${process.env.REACT_APP_MAIN_URL}/otk/update`,
+      method: "POST",
+      data: {
+        createDate: currentDate,
+        flowType: flowID,
+        shoudUpdateData: selectedData,
+        _id,
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
   };
 
   return (
@@ -67,17 +65,10 @@ const NumberInput = ({ type, _id, currentDate, updateHandler }) => {
           type="default"
           danger
           style={{ width: "40px" }}
-          onClick={() => changeByBtn("dec")}>
+          onClick={() => changeByBtn("dic")}>
           -
         </Button>
-        <Input
-          value={selectedData[type]}
-          onChange={onChange}
-          type="number"
-          onKeyDown={(e) =>
-            (e.key === "Enter" || e.key === 13) && saveHandler()
-          }
-        />
+        <Input value={selectedData[type]} type="number" onChange={onChange} />
         <Button
           type="default"
           style={{ width: "40px" }}
@@ -86,7 +77,7 @@ const NumberInput = ({ type, _id, currentDate, updateHandler }) => {
         </Button>
       </Wrapper.ButtonContainer>
       <Wrapper.ButtonContainer>
-        <Button type="primary" onClick={saveHandler}>
+        <Button type="primary" onClick={onSave}>
           Save
         </Button>
         <Button type="primary" danger onClick={cancelHandler}>
