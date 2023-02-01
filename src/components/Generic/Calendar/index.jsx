@@ -76,7 +76,7 @@ const Calendar = ({ date, onDayChange }) => {
         `${setUpDate.getDate()}.${
           setUpDate.getMonth() + 1
         }${setUpDate.getFullYear()}`
-      ) >
+      ) <
       Number(
         `${currentDate.getDate()}.${
           currentDate.getMonth() + 1

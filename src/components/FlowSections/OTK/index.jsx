@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -33,7 +32,6 @@ const OTK = () => {
       setLoading(false);
       const { data } = res;
       setData(data?.data[0]);
-      console.log(data?.data[0]);
     });
   }, [currentDate]);
 
@@ -43,7 +41,6 @@ const OTK = () => {
 
   const onAdd = (value) => {
     setData({ ...data, data: [...data.data, value] });
-    console.log(data);
   };
 
   return (
@@ -56,6 +53,7 @@ const OTK = () => {
         <Table data={data} currentDate={currentDate} />
       )}
       <AddModal
+        isLoading={isLoading}
         open={addModalOpen}
         onOpen={() => setAddModalOpen(true)}
         onCancel={() => setAddModalOpen(false)}
