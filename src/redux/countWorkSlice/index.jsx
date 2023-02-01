@@ -1,21 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const countWorkSlice = createSlice({
+let countWorkSlice = createSlice({
   name: "countWork",
   initialState: {
     selectedData: {},
+    storeSelectedData: {},
   },
   reducers: {
-    useCountWorkSelect(state, action) {
-      state.selectedData = action.payload;
-    },
     setCountWorkSelectedData(state, action) {
       state.selectedData = action.payload;
     },
+    setStoreSelectedData(state, action) {
+      state.storeSelectedData = action.payload;
+    },
   },
 });
-
 export default countWorkSlice.reducer;
-
-export const { useCountWorkSelect, setCountWorkSelectedData } =
+export let { setCountWorkSelectedData, setStoreSelectedData } =
   countWorkSlice.actions;
