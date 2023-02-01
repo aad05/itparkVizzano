@@ -3,7 +3,7 @@ import axios from "axios";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { setCountWorkSelectedData } from "../../../../../redux/countWorkSlice";
+import { setOTKSelectedData } from "../../../../../redux/otkSlice";
 import { Wrapper } from "./style";
 
 const NumberInput = ({
@@ -14,29 +14,12 @@ const NumberInput = ({
   cancelHandler,
 }) => {
   const { flowID } = useParams();
+
   const dispatch = useDispatch();
-  const { selectedData } = useSelector((state) => state.countWork);
+  const { selectedData } = useSelector((state) => state.otk);
 
   const changeHandler = (data) => {
-    dispatch(setCountWorkSelectedData(data));
-  };
-
-  const saveHandler = () => {
-    updateHandler();
-    cancelHandler();
-    axios({
-      url: `${process.env.REACT_APP_MAIN_URL}/merchants/update`,
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      data: {
-        createDate: currentDate,
-        flowType: flowID,
-        shoudUpdateData: selectedData,
-        _id,
-      },
-    });
+    dispatch(setOTKSelectedData(data));
   };
 
   const changeByBtn = (funcType) => {
@@ -56,6 +39,23 @@ const NumberInput = ({
     if (e.target.value < 0) changeHandler({ ...selectedData, [type]: 0 });
     else changeHandler({ ...selectedData, [type]: +e.target.value });
   };
+  const onSave = () => {
+    updateHandler();
+    cancelHandler();
+    axios({
+      url: `${process.env.REACT_APP_MAIN_URL}/otk/update`,
+      method: "POST",
+      data: {
+        createDate: currentDate,
+        flowType: flowID,
+        shoudUpdateData: selectedData,
+        _id,
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  };
 
   return (
     <Wrapper>
@@ -64,17 +64,10 @@ const NumberInput = ({
           type="default"
           danger
           style={{ width: "40px" }}
-          onClick={() => changeByBtn("dec")}>
+          onClick={() => changeByBtn("dic")}>
           -
         </Button>
-        <Input
-          value={selectedData[type]}
-          onChange={onChange}
-          type="number"
-          onKeyDown={(e) =>
-            (e.key === "Enter" || e.key === 13) && saveHandler()
-          }
-        />
+        <Input value={selectedData[type]} type="number" onChange={onChange} />
         <Button
           type="default"
           style={{ width: "40px" }}
@@ -83,7 +76,7 @@ const NumberInput = ({
         </Button>
       </Wrapper.ButtonContainer>
       <Wrapper.ButtonContainer>
-        <Button type="primary" onClick={saveHandler}>
+        <Button type="primary" onClick={onSave}>
           Save
         </Button>
         <Button type="primary" danger onClick={cancelHandler}>

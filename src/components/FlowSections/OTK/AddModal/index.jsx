@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Wrapper } from "../../../Generic/Styles";
 
-const AddModal = ({ open, onCancel, onAdd, onOpen, createDate }) => {
+const AddModal = ({ open, onCancel, onAdd, onOpen, createDate, isLoading }) => {
   const { flowID } = useParams();
   const [productName, setProductName] = useState("");
 
@@ -38,8 +38,7 @@ const AddModal = ({ open, onCancel, onAdd, onOpen, createDate }) => {
         onCancel={onCancel}
         title="Add Product"
         okText="Add"
-        onOk={addUser}
-      >
+        onOk={addUser}>
         <Wrapper.InputWrapper>
           <Wrapper.Label>Product Name:</Wrapper.Label>
           <Wrapper.Input
@@ -50,9 +49,13 @@ const AddModal = ({ open, onCancel, onAdd, onOpen, createDate }) => {
         </Wrapper.InputWrapper>
       </Modal>
       <Wrapper>
-        <Button type="primary" style={{ margin: "80px 0" }} onClick={onOpen}>
-          + Add Product
-        </Button>
+        {isLoading ? (
+          <Button disabled>+ Add Product</Button>
+        ) : (
+          <Button type="primary" style={{ margin: "80px 0" }} onClick={onOpen}>
+            + Add Product
+          </Button>
+        )}
       </Wrapper>
     </>
   );

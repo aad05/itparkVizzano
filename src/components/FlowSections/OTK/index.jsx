@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -48,8 +47,13 @@ const OTK = () => {
     <Wrapper>
       <Title>OTK</Title>
       <Calendar date={date} onDayChange={onDayChangeHandler} />
-      {isLoading ? <TableLoading count={10} /> : <Table data={data} />}
+      {isLoading ? (
+        <TableLoading count={10} />
+      ) : (
+        <Table data={data} currentDate={currentDate} />
+      )}
       <AddModal
+        isLoading={isLoading}
         open={addModalOpen}
         onOpen={() => setAddModalOpen(true)}
         onCancel={() => setAddModalOpen(false)}

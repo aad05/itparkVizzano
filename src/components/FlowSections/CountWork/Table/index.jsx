@@ -26,7 +26,10 @@ const Table = ({ data, currentDate }) => {
       ),
     });
   };
-
+  const cancelHandler = () => {
+    dispatch(setCountWorkSelectedData({}));
+    setSelectType("");
+  };
   return (
     <TableContainer>
       <TableContainer.Table>
@@ -50,11 +53,11 @@ const Table = ({ data, currentDate }) => {
                 </TableContainer.Td>
                 <TableContainer.Td
                   defect={!value.isCome}
-                  onDoubleClick={() => doubleClickHandler(value, "fullName")}
-                >
+                  onDoubleClick={() => doubleClickHandler(value, "fullName")}>
                   {selectedData._id === value._id &&
                   selectType === "fullName" ? (
                     <TextInput
+                      cancelHandler={cancelHandler}
                       updateHandler={updateHandler}
                       _id={data._id}
                       currentDate={currentDate}
@@ -66,10 +69,10 @@ const Table = ({ data, currentDate }) => {
                 <TableContainer.Td
                   isAvailable
                   defect={true}
-                  onDoubleClick={() => doubleClickHandler(value, "fake")}
-                >
+                  onDoubleClick={() => doubleClickHandler(value, "fake")}>
                   {selectedData._id === value._id && selectType === "fake" ? (
                     <NumberInput
+                      cancelHandler={cancelHandler}
                       type="fake"
                       _id={data._id}
                       currentDate={currentDate}
@@ -81,11 +84,11 @@ const Table = ({ data, currentDate }) => {
                 </TableContainer.Td>
                 <TableContainer.Td
                   defect={!value.isCome}
-                  onDoubleClick={() => doubleClickHandler(value, "price")}
-                >
+                  onDoubleClick={() => doubleClickHandler(value, "price")}>
                   {" "}
                   {selectedData._id === value._id && selectType === "price" ? (
                     <NumberInput
+                      cancelHandler={cancelHandler}
                       type="price"
                       _id={data._id}
                       currentDate={currentDate}
