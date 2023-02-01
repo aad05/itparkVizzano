@@ -6,14 +6,11 @@ import { useParams } from "react-router-dom";
 import { setCountWorkSelectedData } from "../../../../../redux/countWorkSlice";
 import { Wrapper } from "./style";
 
-const TextInput = ({ currentDate, _id, updateHandler }) => {
+const TextInput = ({ currentDate, _id, updateHandler, cancelHandler }) => {
   const { flowID } = useParams();
   const dispatch = useDispatch();
   const { selectedData } = useSelector((state) => state.countWork);
 
-  const cancelHandler = () => {
-    dispatch(setCountWorkSelectedData({}));
-  };
   const onChange = (e) => {
     dispatch(
       setCountWorkSelectedData({ ...selectedData, fullName: e.target.value })

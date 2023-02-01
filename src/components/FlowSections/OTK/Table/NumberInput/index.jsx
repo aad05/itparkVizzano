@@ -6,7 +6,13 @@ import { useParams } from "react-router-dom";
 import { setOTKSelectedData } from "../../../../../redux/otkSlice";
 import { Wrapper } from "./style";
 
-const NumberInput = ({ type, _id, currentDate, updateHandler }) => {
+const NumberInput = ({
+  type,
+  _id,
+  currentDate,
+  updateHandler,
+  cancelHandler,
+}) => {
   const { flowID } = useParams();
 
   const dispatch = useDispatch();
@@ -15,31 +21,24 @@ const NumberInput = ({ type, _id, currentDate, updateHandler }) => {
   const changeHandler = (data) => {
     dispatch(setOTKSelectedData(data));
   };
-  const cancelHandler = () => {
-    dispatch(setOTKSelectedData({}));
-  };
-  const onChange = (e) => {
-    if (type === "things")
-      changeHandler({ ...selectedData, things: +e.target.value });
-    else changeHandler({ ...selectedData, fake: +e.target.value });
-  };
+
   const changeByBtn = (funcType) => {
     if (funcType === "inc")
-      dispatch(
-        setOTKSelectedData({
-          ...selectedData,
-          [type]: +selectedData[type] + 1,
-        })
-      );
-    else
-      dispatch(
-        setOTKSelectedData({
-          ...selectedData,
-          [type]: +selectedData[type] - 1,
-        })
-      );
+      changeHandler({
+        ...selectedData,
+        [type]: +selectedData[type] + 1,
+      });
+    else if (selectedData[type] > 0)
+      cancelHandler({
+        ...selectedData,
+        [type]: +selectedData[type] - 1,
+      });
   };
 
+  const onChange = (e) => {
+    if (e.target.value < 0) changeHandler({ ...selectedData, [type]: 0 });
+    else changeHandler({ ...selectedData, [type]: +e.target.value });
+  };
   const onSave = () => {
     updateHandler();
     cancelHandler();

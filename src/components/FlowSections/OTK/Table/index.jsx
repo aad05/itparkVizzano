@@ -55,7 +55,10 @@ const Table = ({ data, currentDate }) => {
       },
     });
   };
-
+  const cancelHandler = () => {
+    dispatch(setOTKSelectedData({}));
+    setSelectType("");
+  };
   return (
     <TableContainer>
       <WarningModal
@@ -88,6 +91,7 @@ const Table = ({ data, currentDate }) => {
                   {value._id === selectedData._id &&
                   selectType === "productName" ? (
                     <TextInput
+                      cancelHandler={cancelHandler}
                       updateHandler={updateData}
                       _id={data._id}
                       currentDate={currentDate}
@@ -101,6 +105,7 @@ const Table = ({ data, currentDate }) => {
                   count>
                   {selectedData._id === value._id && selectType === "things" ? (
                     <NumberInput
+                      cancelHandler={cancelHandler}
                       type={"things"}
                       updateHandler={updateData}
                       _id={data._id}
@@ -115,6 +120,7 @@ const Table = ({ data, currentDate }) => {
                   onDoubleClick={() => doubleClickHandler(value, "fake")}>
                   {selectedData._id === value._id && selectType === "fake" ? (
                     <NumberInput
+                      cancelHandler={cancelHandler}
                       type={"fake"}
                       updateHandler={updateData}
                       _id={data._id}

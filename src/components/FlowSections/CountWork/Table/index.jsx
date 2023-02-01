@@ -26,7 +26,10 @@ const Table = ({ data, currentDate }) => {
       ),
     });
   };
-
+  const cancelHandler = () => {
+    dispatch(setCountWorkSelectedData({}));
+    setSelectType("");
+  };
   return (
     <TableContainer>
       <TableContainer.Table>
@@ -54,6 +57,7 @@ const Table = ({ data, currentDate }) => {
                   {selectedData._id === value._id &&
                   selectType === "fullName" ? (
                     <TextInput
+                      cancelHandler={cancelHandler}
                       updateHandler={updateHandler}
                       _id={data._id}
                       currentDate={currentDate}
@@ -68,6 +72,7 @@ const Table = ({ data, currentDate }) => {
                   onDoubleClick={() => doubleClickHandler(value, "fake")}>
                   {selectedData._id === value._id && selectType === "fake" ? (
                     <NumberInput
+                      cancelHandler={cancelHandler}
                       type="fake"
                       _id={data._id}
                       currentDate={currentDate}
@@ -83,6 +88,7 @@ const Table = ({ data, currentDate }) => {
                   {" "}
                   {selectedData._id === value._id && selectType === "price" ? (
                     <NumberInput
+                      cancelHandler={cancelHandler}
                       type="price"
                       _id={data._id}
                       currentDate={currentDate}

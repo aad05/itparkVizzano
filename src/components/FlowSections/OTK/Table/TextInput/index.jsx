@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { setOTKSelectedData } from "../../../../../redux/otkSlice";
 import { Wrapper } from "./style";
 
-const TextInput = ({ currentDate, _id, updateHandler }) => {
+const TextInput = ({ currentDate, _id, updateHandler, cancelHandler }) => {
   const { flowID } = useParams();
 
   const dispatch = useDispatch();
@@ -15,9 +15,7 @@ const TextInput = ({ currentDate, _id, updateHandler }) => {
   const changeHandler = (data) => {
     dispatch(setOTKSelectedData(data));
   };
-  const cancelHandler = () => {
-    dispatch(setOTKSelectedData({}));
-  };
+
   const onChange = (e) => {
     changeHandler({ ...selectedData, productName: e.target.value });
   };

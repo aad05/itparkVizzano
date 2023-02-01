@@ -6,14 +6,16 @@ import { useParams } from "react-router-dom";
 import { setCountWorkSelectedData } from "../../../../../redux/countWorkSlice";
 import { Wrapper } from "./style";
 
-const NumberInput = ({ type, _id, currentDate, updateHandler }) => {
+const NumberInput = ({
+  type,
+  _id,
+  currentDate,
+  updateHandler,
+  cancelHandler,
+}) => {
   const { flowID } = useParams();
   const dispatch = useDispatch();
   const { selectedData } = useSelector((state) => state.countWork);
-
-  const cancelHandler = () => {
-    dispatch(setCountWorkSelectedData({}));
-  };
 
   const changeHandler = (data) => {
     dispatch(setCountWorkSelectedData(data));
@@ -39,25 +41,20 @@ const NumberInput = ({ type, _id, currentDate, updateHandler }) => {
 
   const changeByBtn = (funcType) => {
     if (funcType === "inc")
-      dispatch(
-        setCountWorkSelectedData({
-          ...selectedData,
-          [type]: +selectedData[type] + 1,
-        })
-      );
-    else
-      dispatch(
-        setCountWorkSelectedData({
-          ...selectedData,
-          [type]: +selectedData[type] - 1,
-        })
-      );
+      changeHandler({
+        ...selectedData,
+        [type]: +selectedData[type] + 1,
+      });
+    else if (selectedData[type] > 0)
+      cancelHandler({
+        ...selectedData,
+        [type]: +selectedData[type] - 1,
+      });
   };
 
   const onChange = (e) => {
-    if (type === "fake")
-      changeHandler({ ...selectedData, fake: +e.target.value });
-    else changeHandler({ ...selectedData, price: +e.target.value });
+    if (e.target.value < 0) changeHandler({ ...selectedData, [type]: 0 });
+    else changeHandler({ ...selectedData, [type]: +e.target.value });
   };
 
   return (
