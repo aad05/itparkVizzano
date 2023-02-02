@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setStoreSelectedData } from "../../../../redux/countWorkSlice";
 import { Wrapper } from "./style";
 
-const InputText = ({ _id, updateHandler }) => {
+const InputText = ({ _id, updateHandler, clearType }) => {
   let { storeSelectedData } = useSelector((state) => state.countWork);
   let dispatch = useDispatch();
 
@@ -20,6 +20,7 @@ const InputText = ({ _id, updateHandler }) => {
 
   let onCancel = () => {
     dispatch(setStoreSelectedData({}));
+    clearType();
   };
 
   let onSave = () => {
@@ -37,7 +38,7 @@ const InputText = ({ _id, updateHandler }) => {
         sendedThings: storeSelectedData.sendedThings,
         _id: storeSelectedData._id,
       },
-    }).then((res) => console.log(res));
+    });
   };
 
   return (

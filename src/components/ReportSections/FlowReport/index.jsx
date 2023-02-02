@@ -10,7 +10,6 @@ const FlowReport = ({ date }) => {
     { id: 3, name: "Flow 4", data: { price: 0, fake: 0, things: 0 } },
     { id: 4, name: "Flow 5", data: { price: 0, fake: 0, things: 0 } },
   ]);
-  console.log(date, "flowReport");
   return (
     <div>
       <Title>Flow report</Title>

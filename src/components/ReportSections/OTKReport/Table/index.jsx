@@ -2,12 +2,10 @@ import { Button } from "antd";
 import { OrderedListOutlined } from "@ant-design/icons";
 import { TableContainer } from "../../../Generic/Styles/tableStyle";
 import { Wrapper } from "../style";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Table = ({ data, date }) => {
   const navigate = useNavigate();
-  console.log(date, "flowreport -> table");
   return (
     <Wrapper>
       <TableContainer>

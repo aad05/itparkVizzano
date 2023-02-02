@@ -6,12 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setStoreSelectedData } from "../../../redux/countWorkSlice";
 import InputText from "./InputText";
 import InputNumber from "./InputNumber";
-import axios from "axios";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Modal } from "antd";
 
-const Table = ({ data, disableFunction }) => {
-  let [stateData, setStateData] = useState(data);
+const Table = ({ data, disableFunction, updateHandler, deleteStorePr }) => {
   let [selectType, setSelectType] = useState("");
   let { storeSelectedData } = useSelector((state) => state.countWork);
   let dispatch = useDispatch();
@@ -22,38 +20,22 @@ const Table = ({ data, disableFunction }) => {
     setSelectType(doubleType);
   };
 
-  let updateHandler = () => {
-    setStateData({
-      ...stateData,
-      data: stateData.data.map((value) =>
-        value._id === storeSelectedData._id ? storeSelectedData : value
-      ),
-    });
-  };
-
   const { confirm } = Modal;
   const showConfirm = (_id) => {
     confirm({
       title: "Do you Want to delete this product?",
       icon: <ExclamationCircleFilled />,
       onOk() {
-        setStateData({
-          ...stateData,
-          data: stateData.data.filter((value) => value._id !== _id),
-        });
-        axios({
-          url: `${process.env.REACT_APP_MAIN_URL}/store/delete`,
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          data: { _id },
-        });
+        deleteStorePr(_id);
       },
       onCancel() {},
       okText: "Delete",
       okType: "danger",
     });
+  };
+
+  let clearType = () => {
+    setSelectType("");
   };
 
   return (
@@ -73,7 +55,7 @@ const Table = ({ data, disableFunction }) => {
           </TableContainer.Tr>
         </TableContainer.Thead>
         <TableContainer.Tbody>
-          {stateData?.data?.map((value, index) => {
+          {data?.map((value, index) => {
             return (
               <TableContainer.Tr key={value._id}>
                 <TableContainer.Td>{index + 1}</TableContainer.Td>
@@ -82,7 +64,10 @@ const Table = ({ data, disableFunction }) => {
                 >
                   {storeSelectedData._id === value._id &&
                   selectType === "productName" ? (
-                    <InputText updateHandler={updateHandler} />
+                    <InputText
+                      updateHandler={updateHandler}
+                      clearType={clearType}
+                    />
                   ) : (
                     value.productName
                   )}
@@ -93,7 +78,11 @@ const Table = ({ data, disableFunction }) => {
                 >
                   {storeSelectedData._id === value._id &&
                   selectType === "things" ? (
-                    <InputNumber updateHandler={updateHandler} type="things" />
+                    <InputNumber
+                      clearType={clearType}
+                      updateHandler={updateHandler}
+                      type="things"
+                    />
                   ) : (
                     value.things
                   )}
@@ -105,6 +94,7 @@ const Table = ({ data, disableFunction }) => {
                   {storeSelectedData._id === value._id &&
                   selectType === "sendedThings" ? (
                     <InputNumber
+                      clearType={clearType}
                       updateHandler={updateHandler}
                       type="sendedThings"
                     />

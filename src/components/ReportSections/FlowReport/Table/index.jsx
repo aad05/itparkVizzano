@@ -29,7 +29,6 @@ const exampleData = [
 const Table = ({ data, date }) => {
   const navigate = useNavigate();
   const [showBar, setShowBar] = useState({ show: false, active: null });
-  console.log(date, "flowreport -> table");
   return (
     <Wrapper>
       <TableContainer>

@@ -7,9 +7,11 @@ import axios from "axios";
 import AddStoreProduct from "./AddStoreProduct";
 import { useEffect } from "react";
 import TableLoading from "../Generic/TableLoading";
+import { useSelector } from "react-redux";
 
 const Store = ({ disableFunction }) => {
-  const [resData, setResData] = useState();
+  let { storeSelectedData } = useSelector((state) => state.countWork);
+  const [data, setData] = useState([]);
   let [isOpen, setOpen] = useState(false);
   let [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -20,14 +22,30 @@ const Store = ({ disableFunction }) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }).then((res) => {
-      setResData(res.data);
+      setData(res.data.data);
       setLoading(false);
     });
   }, []);
   let onAdd = (value) => {
-    setResData({
-      // ...resData,
-      data: [...resData.data, value],
+    setData([...data, value]);
+  };
+  let updateHandler = () => {
+    setData(
+      data.map((value) =>
+        value._id === storeSelectedData._id ? storeSelectedData : value
+      )
+    );
+  };
+
+  let deleteStorePr = (_id) => {
+    setData(data.filter((value) => value._id !== _id));
+    axios({
+      url: `${process.env.REACT_APP_MAIN_URL}/store/delete`,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      data: { _id },
     });
   };
 
@@ -43,7 +61,12 @@ const Store = ({ disableFunction }) => {
       {loading ? (
         <TableLoading count={10} />
       ) : (
-        <Table disableFunction={disableFunction} data={resData} />
+        <Table
+          disableFunction={disableFunction}
+          data={data}
+          updateHandler={updateHandler}
+          deleteStorePr={deleteStorePr}
+        />
       )}
       {!disableFunction && (
         <Button

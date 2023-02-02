@@ -38,7 +38,6 @@ const Attandances = () => {
   }, [currentDate]);
 
   const addHandler = (propData) => {
-    console.log(data, "Testing");
     setData({ ...data, data: [...data?.data, propData] });
   };
 
