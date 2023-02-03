@@ -20,9 +20,6 @@ const AddModal = ({ open, onCancel, onAdd }) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    // data.data
-
-    // console.log(data);
     onAdd(data.data);
   };
 
